@@ -1,25 +1,35 @@
-import math as m
+import math
+import matplotlib.pyplot as plt
 
 n = int(input("Enter Total number of Forces : "))
-i = 0
-forces = []
-angle = []
-Efx = 0
-Efy = 0
+
+# Variables
+i, Efx, Efy, forces, angles = 0, 0, 0, [], []
 
 while i < n:
-    f = int(input(f"Enter Value of Force {i+1} : "))
-    a = m.radians(int(input(f"Enter Value of Angle {i+1} w.r.t X-Axis : ")))
-    forces.append(f)
-    angle.append(a)
-    Efx = Efx + forces[i] * m.cos(angle[i])
-    Efy += forces[i] * m.sin(angle[i])
+    force = int(input(f"Enter Value of Force {i + 1} : "))
+    angle = math.radians(int(input(f"Enter Value of Angle {i + 1} w.r.t X-Axis : ")))
+    forces.append(force)
+    angles.append(angle)
+    Efx = Efx + forces[i] * math.cos(angles[i])
+    Efy += forces[i] * math.sin(angles[i])
+    plt.arrow(0, 0, forces[i] * math.cos(angles[i]), forces[i] * math.sin(angles[i]), width=0.3, color='blue')
     i += 1
 
-Resultant = m.sqrt((Efx**2) + (Efy**2))
-direction = m.degrees(m.atan(Efy/Efx))
+Resultant = round(math.sqrt((Efx ** 2) + (Efy ** 2)), 2)
+direction = round(math.degrees(math.atan(Efy / Efx)), 2)
 
-print(f'\nSummation of Forces along X-axis = {Efx} N')
-print(f'Summation of Forces along Y-axis = {Efy} N')
+# X-Axis
+plt.hlines(0, -abs(max(Efx, Efy, max(forces))), abs(max(Efx, Efy, max(forces))), color='black')
+# Y-Axis
+plt.vlines(0, -abs(max(Efx, Efy, max(forces))), abs(max(Efx, Efy, max(forces))), color='black')
+
+# Resultant vector
+plt.arrow(0, 0, Efx, Efy, width=0.4, color='red')
+plt.title("Force Vectors")
+
+print(f'\nSummation of Forces along X-axis = {round(Efx, 2)} N')
+print(f'Summation of Forces along Y-axis = {round(Efy, 2)} N')
 print(f'Magnitude of Resultant = {Resultant} N')
 print(f'Direction of Resultant = {direction} °')
+plt.show()
